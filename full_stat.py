@@ -10,8 +10,8 @@ def full_stat_main(n0, s0, m0, rho, Vref):
 	# n0 - initial particle number concentration per size bin 
 	# (# particle /m3 (air))
 	# s0 - initial volume bounds per size bin (m3) (1st dim.)
-	# m0 - initial particle phase mass per size bin (1st dim.) 
-	# (g/m3 (air))
+	# m0 - initial particle phase mass per size bin (1st dim.) per
+	# component (2nd dim) (g/m3 (air))
 	# rho - particle phase component (2nd dim.) densities (g/m3), 
 	# repeated across size bins (1st dim.)
 	# Vref - reference volume of single particles in each fixed 
@@ -19,13 +19,13 @@ def full_stat_main(n0, s0, m0, rho, Vref):
 	
 	# output:
 	# n1 - end of time step particle number concentration per size bin
-	# (# particle m/3 (air))
+	# (# particle/m3 (air))
 	# m1 - end of time step mass per size bin (g m/3 (air)) 
 	
 	# notes:
 	# The full-stationary size structure keeps the volume of single 
 	# particles in each size bin constant. It works by finding the new 
-	# volume of single particles in initial size distribution based on 
+	# volume of single particles based on 
 	# their mass and density, then allocating them to the size bins who's
 	# volume bounds they fall within.  The allocated particles are then 
 	# assumed to have the fixed volume set for that size bin.  Therefore, 
@@ -34,14 +34,15 @@ def full_stat_main(n0, s0, m0, rho, Vref):
 	# get new volume of single particles in size bins:
 
 	# new total volume of particles per original size bin 
-	# (m^3(particle)/m3(air)) (row array)
-	VT = m0*(1.0/rho)
+	# (m^3(particle)/m3(air)) (row array) (sum across volume of individual
+	# components)
+	VT = np.sum(m0*(1.0/rho),0)
 		
 	
 	# new volume of single particles per original size bin 
 	# (m^3(particle)/m3(air)) (row array)
 	V = np.zeros((VT.shape[0]))
-	V[VT>0] = VT[VT>0]/n0[n0[:, 0]>0, 0]
+	V[VT>0] = VT[VT>0]/n0[n0[:, 0]>0, 0] # (only where n>0 to avoid error)
 
 	# ----------------------------------------------------------------	 	# find size bins where particles belong:
 
