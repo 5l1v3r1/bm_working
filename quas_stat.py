@@ -65,8 +65,7 @@ def quas_stat(n0, s0, m0, rho, Vref):
 	mTmat = np.tile(np.sum(m0,1), (m0.shape[1], 1))	
 	# mass fraction per variable size bin (1st dim.) per component 
 	# (2nd dim.)
-	ie0=mTmat==0.0
-	mTmat[ie0]=1.0e6 # prevent error by setting unrealistically high
+	mTmat[mTmat==0.0]=1.0e6 # prevent error by setting unrealistically high
 	# components in 1st dim, variable size bin in 2nd dim.
 	mcrat = np.transpose(m0)/mTmat 
 	# tile mcrat over fixed size bins in 3rd dim.

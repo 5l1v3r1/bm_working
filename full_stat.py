@@ -119,6 +119,8 @@ def full_stat(n0, s0, m0, rho, Vref):
 	# fixed bin (1st dim.)
 	n2 = n1.reshape(n1.shape[0],1) # 2 dim. version rather than 1 dim.	
 	n2[n2==0] = 1.0e6 # set very high to prevent error when dividing
+	# number fraction per variable size bin contributing to each fixed 
+	# size bin	
 	nfpb = np.transpose(agree*nrep/(n2))
 	# repeat over components in 1st dim. (variable size bins in 2nd dim.
 	# and fixed size bins in 3rd dim.)
@@ -130,7 +132,8 @@ def full_stat(n0, s0, m0, rho, Vref):
 	mf1= np.sum(nfpb*mcrat,1)		
 
 	# ----------------------------------------------------------------	
-	
+	# new mass per component per fixed size bin:	
+
 	# new total particle volume per size bin (m3(particle)/m3(air))
 	VT = n1*Vref
 	# average density (g/m3(particle)) per size bin

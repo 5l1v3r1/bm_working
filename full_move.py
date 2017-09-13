@@ -16,8 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with box_model (see COPYING.txt).  If not, see <http://www.gnu.org/licenses/>.
 
-# -----------------------------------------------------------------------------------
-# function to treat a dynamic number size distribution by the Full-Moving 
+# ------------------------------------------------------------------------------# function to treat a dynamic number size distribution by the Full-Moving 
 # Size Structure method (p. 465 Jacobson 2005).
 
 def full_move_main(n0, m0, rho):
